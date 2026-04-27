@@ -27,6 +27,8 @@
   /* ── Page Transitions ── */
 
   function initPageTransitions() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 350ms ease';
 
@@ -44,6 +46,7 @@
         href.startsWith('#') ||
         href.startsWith('mailto:') ||
         href.startsWith('tel:') ||
+        href.startsWith('javascript:') ||
         link.target === '_blank' ||
         link.hostname !== window.location.hostname
       ) return;

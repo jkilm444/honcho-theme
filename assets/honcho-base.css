@@ -252,6 +252,15 @@
   transform: translate(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .hn-reveal,
+  .hn-reveal--right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ── Cart Drawer Overrides ── */
 
 cart-drawer {

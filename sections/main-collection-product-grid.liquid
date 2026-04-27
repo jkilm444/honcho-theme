@@ -170,13 +170,15 @@
               class="hn-archive__grid"
             >
               {%- for product in collection.products -%}
+                {%- assign img_loading = 'lazy' -%}
+                {%- if forloop.index <= 4 -%}{%- assign img_loading = 'eager' -%}{%- endif -%}
                 <li
                   class="hn-reveal"
                   style="--animation-order: {{ forloop.index0 }};"
                 >
                   {%- render 'honcho-product-card',
                     product: product,
-                    loading: forloop.index > 4 | default: 'lazy'
+                    loading: img_loading
                   -%}
                 </li>
               {%- endfor -%}
