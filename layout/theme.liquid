@@ -15,6 +15,12 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {{- /* Honchō Athletic — Google Fonts (non-blocking) */ -}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo+Black:ital@0;1&family=Caveat:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black:ital@0;1&family=Caveat:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -253,9 +259,82 @@
           font-size: 1.6rem;
         }
       }
+
+      /* ============================================
+         HONCHŌ ATHLETIC — BRAND TOKENS
+         ============================================ */
+      :root {
+        --honcho-black:     #000000;
+        --honcho-white:     #ffffff;
+        --honcho-off-white: #fafaf7;
+        --honcho-cream:     #e8e6e1;
+        --honcho-green:     #00FF00;
+
+        --font-display: 'Archivo Black', Helvetica, Arial, sans-serif;
+        --font-body:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+        --font-cursive: 'Caveat', 'Bradley Hand', cursive;
+
+        --tracking-tight:   -0.04em;
+        --tracking-display: -0.03em;
+        --tracking-caps:     0.14em;
+        --tracking-micro:    0.2em;
+
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+        --duration-fast:   180ms;
+        --duration-base:   300ms;
+        --duration-slow:   600ms;
+        --duration-reveal: 900ms;
+
+        --page-gutter: clamp(24px, 4vw, 48px);
+      }
+
+      /* Override Dawn body defaults */
+      body {
+        font-family: var(--font-body);
+        background-color: var(--honcho-white);
+        color: var(--honcho-black);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Paper grain texture overlay */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.03;
+        background-image: url({{ 'camo-texture.png' | asset_url }});
+        background-size: 400px 400px;
+        mix-blend-mode: multiply;
+      }
+
+      /* Global link & selection reset */
+      a { color: inherit; text-decoration: none; }
+      ::selection { background: var(--honcho-black); color: var(--honcho-white); }
+
+      /* Keyframes */
+      @keyframes honchoFadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes honchoFade {
+        0%   { opacity: 0; transform: translateY(4px); }
+        15%  { opacity: 1; transform: translateY(0); }
+        85%  { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      @keyframes honchoSlideRight {
+        from { opacity: 0; transform: translateX(-24px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'honcho-base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -372,5 +451,6 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    <script src="{{ 'honcho-animations.js' | asset_url }}" defer></script>
   </body>
 </html>

@@ -3595,3 +3595,24 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* === HONCHŌ OVERRIDES === */
+:root {
+  --page-width: 144rem;
+  --buttons-radius: 0px;
+  --buttons-radius-outset: 0px;
+  --buttons-shadow-opacity: 0;
+  --product-card-corner-radius: 0px;
+  --badge-corner-radius: 0px;
+  --inputs-radius: 0px;
+  --inputs-radius-outset: 0px;
+  --variant-pills-radius: 0px;
+  --media-radius: 0px;
+  --media-shadow-opacity: 0;
+  --popup-border-radius: 0px;
+  --search-popup-border-radius: 0px;
+}
+
+.section + .section {
+  margin-top: 0;
+}

@@ -1,0 +1,171 @@
+<style>
+  .hn-fgrid {
+    padding: 120px var(--page-gutter) 0;
+  }
+
+  .hn-fgrid__header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: baseline;
+    margin-bottom: 48px;
+  }
+
+  .hn-fgrid__header-meta {
+    text-align: center;
+    opacity: 0.5;
+  }
+
+  .hn-fgrid__header-right {
+    text-align: right;
+  }
+
+  .hn-fgrid__view-all {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    opacity: 0.55;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .hn-fgrid__view-all:hover {
+    opacity: 1;
+  }
+
+  .hn-fgrid__grid {
+    display: grid;
+    gap: 48px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .hn-fgrid {
+      padding-top: 80px;
+    }
+
+    .hn-fgrid__header {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hn-fgrid__header-meta {
+      display: none;
+    }
+
+    .hn-fgrid__grid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 24px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .hn-fgrid__grid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 16px;
+    }
+  }
+</style>
+
+{%- assign product_count = section.settings.product_count | default: 3 -%}
+
+<div class="hn-fgrid">
+  <div class="hn-fgrid__header hn-reveal">
+    <div>
+      {%- if section.settings.label != blank -%}
+        <span class="hn-label">{{ section.settings.label }}</span>
+      {%- endif -%}
+    </div>
+    <div class="hn-fgrid__header-meta">
+      {%- if section.settings.meta != blank -%}
+        <span class="hn-label">{{ section.settings.meta }}</span>
+      {%- endif -%}
+    </div>
+    <div class="hn-fgrid__header-right">
+      {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+        <a href="{{ section.settings.collection.url }}" class="hn-fgrid__view-all">
+          Issue complete ({{ section.settings.collection.products_count }}) →
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.collection != blank -%}
+    <ul class="hn-fgrid__grid" style="grid-template-columns: repeat({{ product_count }}, 1fr);">
+      {%- for product in section.settings.collection.products limit: product_count -%}
+        <li class="hn-reveal" style="--animation-order: {{ forloop.index0 }};">
+          {%- render 'honcho-product-card', product: product -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- else -%}
+    <ul class="hn-fgrid__grid" style="grid-template-columns: repeat({{ product_count }}, 1fr);">
+      {%- for i in (1..product_count) -%}
+        <li>
+          <div style="aspect-ratio: 4/5; background: #e8e6e1;">
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+          <div class="hn-pcard__info">
+            <p class="hn-pcard__title">Select a collection above</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Honchō Featured Grid",
+  "tag": "section",
+  "class": "honcho-featured-grid",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label (left)",
+      "default": "Standard Issue"
+    },
+    {
+      "type": "text",
+      "id": "meta",
+      "label": "Center meta label",
+      "default": "Batch 02"
+    },
+    {
+      "type": "range",
+      "id": "product_count",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Products to show",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view-all link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Honchō Featured Grid",
+      "settings": {
+        "label": "Standard Issue",
+        "meta": "Batch 02",
+        "product_count": 3,
+        "show_view_all": true
+      }
+    }
+  ]
+}
+{% endschema %}

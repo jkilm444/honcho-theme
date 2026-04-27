@@ -56,13 +56,13 @@
             "type": "color",
             "id": "text",
             "label": "t:settings_schema.colors.settings.text.label",
-            "default": "#121212"
+            "default": "#000000"
           },
           {
             "type": "color",
             "id": "button",
             "label": "t:settings_schema.colors.settings.button_background.label",
-            "default": "#121212"
+            "default": "#000000"
           },
           {
             "type": "color",
@@ -74,13 +74,13 @@
             "type": "color",
             "id": "secondary_button_label",
             "label": "t:settings_schema.colors.settings.secondary_button_label.label",
-            "default": "#121212"
+            "default": "#000000"
           },
           {
             "type": "color",
             "id": "shadow",
             "label": "t:settings_schema.colors.settings.shadow.label",
-            "default": "#121212"
+            "default": "#000000"
           }
         ],
         "role": {
@@ -97,7 +97,42 @@
           "secondary_button": "background",
           "on_secondary_button": "secondary_button_label",
           "secondary_button_border": "secondary_button_label"
-        }
+        },
+        "presets": [
+          {
+            "id": "scheme-1",
+            "settings": {
+              "background": "#FFFFFF",
+              "text": "#000000",
+              "button": "#000000",
+              "button_label": "#FFFFFF",
+              "secondary_button_label": "#000000",
+              "shadow": "#000000"
+            }
+          },
+          {
+            "id": "scheme-2",
+            "settings": {
+              "background": "#000000",
+              "text": "#FFFFFF",
+              "button": "#FFFFFF",
+              "button_label": "#000000",
+              "secondary_button_label": "#FFFFFF",
+              "shadow": "#000000"
+            }
+          },
+          {
+            "id": "scheme-3",
+            "settings": {
+              "background": "#fafaf7",
+              "text": "#000000",
+              "button": "#000000",
+              "button_label": "#FFFFFF",
+              "secondary_button_label": "#000000",
+              "shadow": "#000000"
+            }
+          }
+        ]
       }
     ]
   },

@@ -1,0 +1,233 @@
+<style>
+  .hn-hero {
+    position: relative;
+    aspect-ratio: 4/3;
+    max-height: 78vh;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .hn-hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hn-hero__vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0.35) 0%,
+      transparent 22%,
+      transparent 65%,
+      rgba(0,0,0,0.55) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hn-hero__meta {
+    position: absolute;
+    top: 20px;
+    left: var(--page-gutter);
+    right: var(--page-gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+
+  .hn-hero__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 var(--page-gutter) 56px;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  .hn-hero__wordmark-img {
+    max-height: 80px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    display: block;
+  }
+
+  .hn-hero__wordmark-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(40px, 7vw, 100px);
+    line-height: 0.9;
+    letter-spacing: var(--tracking-display);
+    color: #fff;
+    display: block;
+  }
+
+  .hn-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 14px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .hn-hero__cta:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #fff;
+  }
+
+  @media screen and (max-width: 749px) {
+    .hn-hero {
+      aspect-ratio: 3/4;
+      max-height: none;
+    }
+
+    .hn-hero__bottom {
+      grid-template-columns: 1fr;
+      padding-bottom: 36px;
+    }
+
+    .hn-hero__wordmark-img {
+      max-height: 52px;
+    }
+  }
+</style>
+
+<div class="hn-hero">
+  {%- if section.settings.image != blank -%}
+    {{ section.settings.image | image_url: width: 2400 | image_tag:
+      class: 'hn-hero__img',
+      loading: 'eager',
+      fetchpriority: 'high',
+      widths: '750,1100,1500,1780,2000,2400',
+      sizes: '100vw',
+      alt: section.settings.image.alt | default: shop.name
+    }}
+  {%- else -%}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'hn-hero__img placeholder-svg' }}
+  {%- endif -%}
+
+  <div class="hn-hero__vignette"></div>
+
+  <div class="hn-hero__meta hn-reveal" style="--animation-order: 1;">
+    <span>
+      {%- if section.settings.issue_number != blank -%}{{ section.settings.issue_number }}{%- endif -%}
+      {%- if section.settings.batch_label != blank -%}&ensp;—&ensp;{{ section.settings.batch_label }}{%- endif -%}
+    </span>
+    {%- if section.settings.photo_credit != blank -%}
+      <span>{{ section.settings.photo_credit }}</span>
+    {%- endif -%}
+  </div>
+
+  <div class="hn-hero__bottom hn-reveal" style="--animation-order: 2;">
+    {%- if section.settings.wordmark != blank -%}
+      <div>
+        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+          {{ section.settings.wordmark | image_url: width: 800 | image_tag:
+            class: 'hn-hero__wordmark-img',
+            alt: shop.name,
+            loading: 'eager'
+          }}
+        </a>
+      </div>
+    {%- else -%}
+      <div>
+        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+          <span class="hn-hero__wordmark-text">{{ shop.name }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank -%}
+      <div>
+        <a href="{{ section.settings.cta_link | default: routes.collections_url }}" class="hn-hero__cta">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Honchō Hero",
+  "tag": "section",
+  "class": "honcho-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "image_picker",
+      "id": "wordmark",
+      "label": "Wordmark image (shown bottom-left)"
+    },
+    {
+      "type": "text",
+      "id": "issue_number",
+      "label": "Issue number",
+      "default": "ISSUE 002"
+    },
+    {
+      "type": "text",
+      "id": "batch_label",
+      "label": "Batch label",
+      "default": "Batch 02"
+    },
+    {
+      "type": "text",
+      "id": "photo_credit",
+      "label": "Photo credit (top-right)",
+      "default": "Photo: K. Okonkwo"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA button text",
+      "default": "Shop the Issue"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Honchō Hero",
+      "settings": {
+        "issue_number": "ISSUE 002",
+        "batch_label": "Batch 02",
+        "photo_credit": "Photo: K. Okonkwo",
+        "cta_text": "Shop the Issue"
+      }
+    }
+  ]
+}
+{% endschema %}

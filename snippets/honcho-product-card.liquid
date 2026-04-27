@@ -1,0 +1,69 @@
+{%- liquid
+  assign is_retired = false
+  unless product.available
+    assign is_retired = true
+  endunless
+
+  assign is_final = false
+  if product.available
+    assign first_variant = product.selected_or_first_available_variant
+    if first_variant.inventory_management == 'shopify' and first_variant.inventory_quantity > 0 and first_variant.inventory_quantity <= 5
+      assign is_final = true
+    endif
+  endif
+
+  assign product_subtitle = product.metafields.descriptors.subtitle.value
+  assign image_bg = product.metafields.honcho.image_bg.value | default: '#e8e6e1'
+  assign primary_media = product.media[0]
+  assign alt_media = product.media[1]
+  assign card_loading = loading | default: 'lazy'
+  assign card_sizes = sizes | default: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw'
+-%}
+
+<a href="{{ product.url }}" class="hn-pcard" aria-label="{{ product.title | escape }}">
+  <div class="hn-pcard__img" style="aspect-ratio: 4/5; background: {{ image_bg }};">
+    {%- if primary_media != blank -%}
+      {{ primary_media | image_url: width: 900 | image_tag:
+        class: 'hn-pcard__img-primary',
+        loading: card_loading,
+        widths: '360,540,720,900',
+        sizes: card_sizes,
+        alt: primary_media.alt | default: product.title
+      }}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'hn-pcard__img-primary placeholder-svg' }}
+    {%- endif -%}
+
+    {%- if alt_media != blank -%}
+      {{ alt_media | image_url: width: 900 | image_tag:
+        class: 'hn-pcard__img-alt',
+        loading: 'lazy',
+        widths: '360,540,720,900',
+        sizes: card_sizes,
+        alt: alt_media.alt | default: product.title
+      }}
+    {%- endif -%}
+
+    <div class="hn-pcard__badges">
+      {%- if is_retired -%}
+        <span class="hn-badge hn-badge--retired">Retired</span>
+      {%- elsif is_final -%}
+        <span class="hn-badge hn-badge--final">Final Pieces</span>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="hn-pcard__info">
+    <p class="hn-pcard__title">{{ product.title }}</p>
+    {%- if product_subtitle != blank -%}
+      <p class="hn-pcard__subtitle">{{ product_subtitle }}</p>
+    {%- endif -%}
+    <p class="hn-pcard__price{% if is_retired %} hn-pcard__price--retired{% endif %}">
+      {%- if is_retired -%}
+        — Retired —
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+    </p>
+  </div>
+</a>

@@ -1,0 +1,139 @@
+<style>
+  .hn-editorial {
+    padding: 60px var(--page-gutter) 0;
+  }
+
+  .hn-editorial__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .hn-editorial__number {
+    opacity: 0.55;
+    padding-top: 4px;
+  }
+
+  .hn-editorial__body {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--honcho-black, #000);
+  }
+
+  .hn-editorial__body p {
+    margin-bottom: 1em;
+  }
+
+  .hn-editorial__body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .hn-editorial__cta-col {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 4px;
+  }
+
+  .hn-editorial__cta {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    opacity: 0.7;
+    transition: opacity var(--duration-fast) ease;
+    white-space: nowrap;
+  }
+
+  .hn-editorial__cta:hover {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 989px) {
+    .hn-editorial__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .hn-editorial__cta-col {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .hn-editorial {
+      padding-top: 48px;
+    }
+
+    .hn-editorial__grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+</style>
+
+<div class="hn-editorial">
+  <div class="hn-editorial__grid hn-reveal">
+    <div class="hn-editorial__number">
+      {%- if section.settings.section_number != blank -%}
+        <span class="hn-label">{{ section.settings.section_number }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="hn-editorial__body">
+      {{ section.settings.body_text }}
+    </div>
+
+    <div class="hn-editorial__cta-col">
+      {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+        <a href="{{ section.settings.cta_link }}" class="hn-editorial__cta">{{ section.settings.cta_text }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Honchō Editorial Caption",
+  "tag": "section",
+  "class": "honcho-editorial-caption",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_number",
+      "label": "Section label (left column)",
+      "default": "01 — The Mandate"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "<p>Honchō is not a lifestyle brand. It is a standard — a measurement of how you move, how you train, how you carry yourself when no one is watching. Batch 02 continues the mandate.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Link text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Honchō Editorial Caption",
+      "settings": {
+        "section_number": "01 — The Mandate",
+        "body_text": "<p>Honchō is not a lifestyle brand. It is a standard — a measurement of how you move, how you train, how you carry yourself when no one is watching. Batch 02 continues the mandate. 400 numbered pieces. No restock. No exceptions.</p>"
+      }
+    }
+  ]
+}
+{% endschema %}
