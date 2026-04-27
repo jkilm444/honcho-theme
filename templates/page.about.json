@@ -1,0 +1,48 @@
+{
+  "sections": {
+    "about": {
+      "type": "honcho-about",
+      "settings": {
+        "intro_label": "01 — The Standard",
+        "intro_body": "<p>Honchō is not a lifestyle brand. It is a standard — a measurement of how you move, how you train, how you carry yourself when no one is watching. Built for competitors. Worn by commanders. Issued in numbered batches of 400. No restock. No exceptions.</p>"
+      },
+      "blocks": {
+        "block_1": {
+          "type": "story_section",
+          "settings": {
+            "number": "01",
+            "heading": "Built for competition.",
+            "body": "<p>Every piece in the Honchō catalogue is made to move. Not to impress at the bar — to perform under pressure, to hold form under load, to earn its place in the rotation. We test in the gym. We test on the mat. We test in Fukuoka.</p>",
+            "tagline": "Shop the issue",
+            "tagline_link": "shopify:\/\/collections\/all",
+            "image_treatment": "polaroid",
+            "layout": "image-left",
+            "caption": "Mat day, 2024."
+          }
+        },
+        "block_2": {
+          "type": "story_section",
+          "settings": {
+            "number": "02",
+            "heading": "The mandate.",
+            "body": "<p>400 numbered pieces. Each batch carries a certificate. Each piece is cut from the same bolt. When the run is exhausted, it is retired — permanently. We do not restock. We do not hold inventory. Standing orders only.</p>",
+            "image_treatment": "poster",
+            "layout": "text-left"
+          }
+        },
+        "block_3": {
+          "type": "story_section",
+          "settings": {
+            "number": "03",
+            "heading": "The bench.",
+            "body": "<p>The Bench is Honchō's origin. A training post in Fukuoka where the standard was set. Every colourway, every fabric weight, every stitch placement is evaluated against what works at the Bench — not what photographs well.</p>",
+            "image_treatment": "collage",
+            "layout": "image-left"
+          }
+        }
+      },
+      "block_order": ["block_1", "block_2", "block_3"]
+    }
+  },
+  "order": ["about"]
+}

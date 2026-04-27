@@ -37,6 +37,119 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
+
+    /* Honchō PDP overrides */
+    #MainProduct-{{ section.id }} .product__title h1,
+    #MainProduct-{{ section.id }} .product__title h2 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 0.95;
+      letter-spacing: var(--tracking-display, -0.03em);
+      margin-bottom: 12px;
+    }
+
+    #MainProduct-{{ section.id }} .product__text.caption-with-letter-spacing {
+      font-family: var(--font-body, 'Helvetica Neue', sans-serif);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.55;
+    }
+
+    #MainProduct-{{ section.id }} .price--large .price-item {
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    #MainProduct-{{ section.id }} .swatch-input__label,
+    #MainProduct-{{ section.id }} .variant-pills__input + label {
+      border-radius: 0 !important;
+      border: 1px solid rgba(0,0,0,0.4);
+    }
+
+    #MainProduct-{{ section.id }} .swatch-input__label:hover,
+    #MainProduct-{{ section.id }} .variant-pills__input:checked + label {
+      background: var(--honcho-black, #000);
+      color: #fff;
+      border-color: #000;
+    }
+
+    #MainProduct-{{ section.id }} .product-form__cart-submit {
+      height: 52px;
+      border-radius: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    #MainProduct-{{ section.id }} .product__accordion summary {
+      padding: 16px 0;
+      border-top: 1px solid #000;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    #MainProduct-{{ section.id }} .product__accordion summary .svg-wrapper:last-child {
+      display: none;
+    }
+
+    #MainProduct-{{ section.id }} .product__accordion summary::after {
+      content: '+';
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    #MainProduct-{{ section.id }} .product__accordion details[open] > summary::after {
+      content: '—';
+    }
+
+    #MainProduct-{{ section.id }} .product__accordion .accordion__title svg,
+    #MainProduct-{{ section.id }} .product__accordion .accordion__title .svg-wrapper {
+      display: none;
+    }
+
+    .hn-field-notes {
+      border-top: 1px solid #000;
+      margin-top: 120px;
+      padding: 60px var(--page-gutter) 80px;
+    }
+
+    .hn-field-notes__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+
+    .hn-field-notes__label {
+      display: block;
+      opacity: 0.55;
+      margin-bottom: 8px;
+    }
+
+    .hn-field-notes__value {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media screen and (max-width: 749px) {
+      .hn-field-notes__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+    }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -683,6 +796,43 @@
         </section>
       </div>
     </div>
+
+    {%- liquid
+      assign has_field_notes = false
+      if product.metafields.honcho.batch_size != blank or product.metafields.honcho.cut != blank or product.metafields.honcho.origin != blank or product.metafields.honcho.standard != blank
+        assign has_field_notes = true
+      endif
+    -%}
+    {%- if has_field_notes -%}
+      <div class="hn-field-notes hn-reveal">
+        <div class="hn-field-notes__grid">
+          {%- if product.metafields.honcho.batch_size != blank -%}
+            <div class="hn-field-notes__cell">
+              <span class="hn-label-sm hn-field-notes__label">Batch</span>
+              <span class="hn-field-notes__value">{{ product.metafields.honcho.batch_size }}</span>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.honcho.cut != blank -%}
+            <div class="hn-field-notes__cell">
+              <span class="hn-label-sm hn-field-notes__label">Cut</span>
+              <span class="hn-field-notes__value">{{ product.metafields.honcho.cut }}</span>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.honcho.origin != blank -%}
+            <div class="hn-field-notes__cell">
+              <span class="hn-label-sm hn-field-notes__label">Origin</span>
+              <span class="hn-field-notes__value">{{ product.metafields.honcho.origin }}</span>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.honcho.standard != blank -%}
+            <div class="hn-field-notes__cell">
+              <span class="hn-label-sm hn-field-notes__label">Standard</span>
+              <span class="hn-field-notes__value">{{ product.metafields.honcho.standard }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
 
     {% render 'product-media-modal', variant_images: variant_images %}
 
