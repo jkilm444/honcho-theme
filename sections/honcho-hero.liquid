@@ -62,42 +62,47 @@
   }
 
   .hn-hero__wordmark-img {
-    max-height: 80px;
-    width: auto;
-    filter: brightness(0) invert(1);
+    width: min(78%, 1080px);
+    height: auto;
+    filter: brightness(0) invert(1) drop-shadow(0 8px 32px rgba(0,0,0,0.45));
     display: block;
   }
 
   .hn-hero__wordmark-text {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: clamp(40px, 7vw, 100px);
-    line-height: 0.9;
+    font-size: clamp(48px, 9vw, 140px);
+    line-height: 0.88;
     letter-spacing: var(--tracking-display);
     color: #fff;
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.45));
     display: block;
   }
 
-  .hn-hero__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
+  .hn-hero__cta-block {
+    color: #fff;
+    text-align: right;
     font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #fff;
-    padding: 14px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
-    white-space: nowrap;
+    line-height: 1.8;
+    opacity: 0.9;
     flex-shrink: 0;
   }
 
-  .hn-hero__cta:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: #fff;
+  .hn-hero__cta-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 2px;
+    opacity: 0.9;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .hn-hero__cta-link:hover {
+    opacity: 1;
   }
 
   @media screen and (max-width: 749px) {
@@ -112,7 +117,12 @@
     }
 
     .hn-hero__wordmark-img {
-      max-height: 52px;
+      width: min(88%, 500px);
+    }
+
+    .hn-hero__cta-block {
+      text-align: left;
+      font-size: 9px;
     }
   }
 </style>
@@ -128,47 +138,64 @@
       alt: section.settings.image.alt | default: shop.name
     }}
   {%- else -%}
-    {{ 'lifestyle-1' | placeholder_svg_tag: 'hn-hero__img placeholder-svg' }}
+    <img
+      src="{{ 'hero-shoot.jpg' | asset_url }}"
+      class="hn-hero__img"
+      loading="eager"
+      fetchpriority="high"
+      alt="{{ shop.name }}"
+    >
   {%- endif -%}
 
   <div class="hn-hero__vignette"></div>
 
   <div class="hn-hero__meta hn-reveal" style="--animation-order: 1;">
-    <span>
-      {%- if section.settings.issue_number != blank -%}{{ section.settings.issue_number }}{%- endif -%}
-      {%- if section.settings.batch_label != blank -%}&ensp;—&ensp;{{ section.settings.batch_label }}{%- endif -%}
-    </span>
+    <div>
+      {%- if section.settings.issue_number != blank -%}
+        <div style="opacity:0.9;">{{ section.settings.issue_number }}</div>
+      {%- endif -%}
+      {%- if section.settings.batch_label != blank -%}
+        <div style="opacity:0.6;margin-top:4px;">{{ section.settings.batch_label }}</div>
+      {%- endif -%}
+    </div>
     {%- if section.settings.photo_credit != blank -%}
-      <span>{{ section.settings.photo_credit }}</span>
+      <div style="text-align:right;">
+        <div style="opacity:0.9;">Cover Frame</div>
+        <div style="opacity:0.6;margin-top:4px;">{{ section.settings.photo_credit }}</div>
+      </div>
     {%- endif -%}
   </div>
 
   <div class="hn-hero__bottom hn-reveal" style="--animation-order: 2;">
     {%- if section.settings.wordmark != blank -%}
-      <div>
-        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-          {{ section.settings.wordmark | image_url: width: 800 | image_tag:
-            class: 'hn-hero__wordmark-img',
-            alt: shop.name,
-            loading: 'eager'
-          }}
-        </a>
-      </div>
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {{ section.settings.wordmark | image_url: width: 1800 | image_tag:
+          class: 'hn-hero__wordmark-img',
+          alt: shop.name,
+          loading: 'eager',
+          widths: '400,800,1200,1800'
+        }}
+      </a>
     {%- else -%}
-      <div>
-        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-          <span class="hn-hero__wordmark-text">{{ shop.name }}</span>
-        </a>
-      </div>
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        <img
+          src="{{ 'honcho-lowercase.png' | asset_url }}"
+          class="hn-hero__wordmark-img"
+          alt="{{ shop.name }}"
+          loading="eager"
+        >
+      </a>
     {%- endif -%}
 
-    {%- if section.settings.cta_text != blank -%}
-      <div>
-        <a href="{{ section.settings.cta_link | default: routes.collections_url }}" class="hn-hero__cta">
-          {{ section.settings.cta_text }}
+    <div class="hn-hero__cta-block">
+      Issued from Osaka<br>
+      For the head of the pack<br>
+      {%- if section.settings.cta_text != blank -%}
+        <a href="{{ section.settings.cta_link | default: routes.collections_url }}" class="hn-hero__cta-link">
+          {{ section.settings.cta_text }} →
         </a>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+    </div>
   </div>
 </div>
 

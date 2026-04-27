@@ -33,10 +33,12 @@
       "settings": {
         "aspect_ratio": "16\/9",
         "vignette_type": "heavy",
-        "headline_line1": "Built for",
-        "headline_line2": "Competition.",
-        "headline_line2_green": false,
-        "meta_right": "Shell Series — 001"
+        "fallback_asset": "shell.png",
+        "headline_line1": "Step up.",
+        "headline_line2": "Lead the pack.",
+        "headline_line2_green": true,
+        "meta_right": "Shell Series — 001",
+        "meta_left": "The Standard Issue"
       }
     },
     "grid_carte": {
@@ -58,12 +60,15 @@
     "fullbleed_2": {
       "type": "honcho-full-bleed",
       "settings": {
-        "aspect_ratio": "16\/9",
+        "aspect_ratio": "1000\/536",
         "vignette_type": "heavy",
-        "headline_line1": "No shortcuts.",
-        "headline_line2": "No compromises.",
-        "headline_line2_green": true,
-        "meta_right": "The Bench — Fukuoka"
+        "dark_bg": true,
+        "fallback_asset": "bench.png",
+        "headline_line1": "Every door closes.",
+        "headline_line2": "You're still here.",
+        "headline_line2_green": false,
+        "meta_right": "Honchō Athletic",
+        "meta_left": "After Hours"
       }
     },
     "wordmark": {

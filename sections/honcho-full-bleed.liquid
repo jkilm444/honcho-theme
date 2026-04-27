@@ -88,7 +88,7 @@
   }
 
   .hn-fullbleed__headline-line2--green {
-    color: var(--honcho-green, #00FF00);
+    color: var(--honcho-gold, #f5e1a8);
   }
 
   .hn-fullbleed__meta-bottom {
@@ -142,6 +142,13 @@
         sizes: '100vw',
         alt: section.settings.image.alt | default: section.settings.headline_line1 | default: shop.name
       }}
+    {%- elsif section.settings.fallback_asset != blank -%}
+      <img
+        src="{{ section.settings.fallback_asset | asset_url }}"
+        class="hn-fullbleed__img"
+        loading="lazy"
+        alt="{{ section.settings.headline_line1 | default: shop.name }}"
+      >
     {%- else -%}
       {{ 'lifestyle-2' | placeholder_svg_tag: 'hn-fullbleed__img placeholder-svg' }}
     {%- endif -%}
@@ -178,6 +185,12 @@
       "type": "image_picker",
       "id": "image",
       "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "fallback_asset",
+      "label": "Fallback asset filename (e.g. shell.png)",
+      "info": "Used as background image when no image is selected above. Enter the filename from your theme assets folder."
     },
     {
       "type": "select",
